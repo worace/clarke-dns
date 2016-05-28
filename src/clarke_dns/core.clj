@@ -7,12 +7,17 @@
 (defn env [key]
   (System/getenv key))
 
+(defn env-port []
+  (if-let [p (env "PORT")]
+    (Integer/parseInt p)
+    nil))
+
 (defonce server-shutdown-fn (atom nil))
-(def update-delay 5000) ;; ms
+(def update-delay 15000) ;; ms
 
 (defn -main [& args]
   (println "Starting clarke DNS server.")
-  (reset! server-shutdown-fn (httpkit/run-server app {:port (or (env "PORT") 3000)}))
+  (reset! server-shutdown-fn (httpkit/run-server app {:port (or (env-port) 3000)}))
   (.addShutdownHook (Runtime/getRuntime)
                     (Thread. #((println "Stopping Clarke DNS Web Server")
                                (@server-shutdown-fn 100))))
