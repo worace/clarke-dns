@@ -11,4 +11,5 @@
   :uberjar-name "server.jar"
   :main clarke-dns.core
   :profiles {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]]
-                   :plugins [[lein-ring "0.9.7"]]}})
+                   :plugins [[lein-ring "0.9.7"]]}
+             :uberjar {:aot :all}})
