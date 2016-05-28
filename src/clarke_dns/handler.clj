@@ -18,8 +18,16 @@
 
       (GET "/peers" []
            :return [pv/Peer]
-           :summary "List of currently online nodes."
+           :summary "List all currently online nodes."
            (ok (into [] (db/peers))))
+
+      (POST "/recommended_peers" request
+            :return [pv/Peer]
+            :summary "Fetch a list of recommended nodes to connect to. Attempts to exclude the requesting node based on the provided host and port."
+            :body [submission pv/PeerSubmission]
+            (let [p {:port (:port submission)
+                     :host (or (:host submission) (:remote-addr request))}]
+              (ok (into [] (disj (db/peers) p)))))
 
       (POST "/peers" request
         :return pv/Peer
@@ -30,5 +38,5 @@
           (if (pv/available-peer? p)
             (do
               (db/add-peer! p)
-              (ok {:port 3000 :host "127.0.0.1"}))
+              (ok p))
             (unprocessable-entity {:error "No Clarke Coin node available at supplied address."})))))))
