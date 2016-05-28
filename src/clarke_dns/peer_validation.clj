@@ -30,5 +30,9 @@
     (catch Exception e false)))
 
 (defn update-available-peers! []
+  (println "Will check availability of" (count (db/peers)) "peers.")
   (doseq [p (db/peers)]
-    (when-not (available-peer? p) (db/remove-peer! p))))
+    (println "Checking peer" p)
+    (when-not (available-peer? p)
+      (println "Found peer" p "unavailable. Will remove from db.")
+      (db/remove-peer! p))))

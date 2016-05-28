@@ -9,5 +9,6 @@
                  [metosin/compojure-api "1.1.1"]]
   :ring {:handler clarke-dns.handler/app}
   :uberjar-name "server.jar"
+  :main clarke-dns.core
   :profiles {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]]
                    :plugins [[lein-ring "0.9.7"]]}})
