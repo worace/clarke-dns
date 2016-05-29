@@ -30,7 +30,7 @@ ssh root@159.203.204.18
 # these will be run on the host machine
 docker pull worace/clarke-dns:latest
 docker ps -q --filter ancestor=worace/clarke-dns | xargs docker stop
-docker run worace/clarke-dns:latest
+docker run -d -p 80-80:80-80 worace/clarke-dns:latest
 ```
 
 ## License
