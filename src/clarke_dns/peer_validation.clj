@@ -21,6 +21,8 @@
   (try
     (let [t (current-time-millis)
           r (http/post (url peer "ping") {:form-params {:ping t}
+                                          :conn-timeout 2000
+                                          :socket-timeout 5000
                                           :content-type :json})]
       (-> r
           :body
